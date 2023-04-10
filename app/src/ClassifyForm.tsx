@@ -1,9 +1,9 @@
 import { ResultInterface } from './shared/result.interface';
-import { useState, useEffect } from 'react'
-import { summarize } from './IA/ia';
+import { useState } from 'react'
+import { classify } from './IA/ia';
 import ResultContent from './ResultContent';
 
-function SummaryForm(){
+function ClassifyForm(){
     
     const [input, setInput] = useState<string>('');
     const [result, setResult] = useState<ResultInterface>(null);
@@ -12,7 +12,7 @@ function SummaryForm(){
 
     // funcion que setea el result
     const handleButton = async () => { 
-        const res = await summarize(input);
+        const res = await classify(input);
         setResult(res)
     }
     
@@ -26,10 +26,10 @@ function SummaryForm(){
 
             <input type="file" name="pdf" />
             <div className='flex w-full justify-center mt-6'>
-                <button type="button" onClick={ handleButton } className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">summarize</button>
+                <button type="button" onClick={ handleButton } className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">classify</button>
             </div>
         </>
     )
 }
 
-export default SummaryForm;
+export default ClassifyForm;

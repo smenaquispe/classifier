@@ -1,7 +1,7 @@
 import { ResultInterface } from "../shared/result.interface";
 import examples from "./examples";
 
-export const summarize = async (input : string) => {
+export const classify = async (input : string) => {
 
      const url = import.meta.env.VITE_COHERE_SUMMIRIZE_URL,
      api_key = import.meta.env.VITE_COHERE_APY_KEY
