@@ -1,13 +1,10 @@
-interface dataStructure {
-    input : string,
-    result : string
-}
+import { ResultInterface } from "./shared/result.interface";
 
-function ResultContent( {input, result} : dataStructure){
+function ResultContent( result : ResultInterface ){
 
     return(
         <>
-            <div className="mx-9" > { result } </div>
+            <div className="mx-9 border-solid" > { result?.topic }  { result?.confidence } </div>
         </>
     )
 

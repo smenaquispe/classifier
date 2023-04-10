@@ -1,26 +1,45 @@
-const COHERE_APY_KEY = "ii8EjtvESpDo2NJ3smwRpPetRVgbQqGX2mtcelnt";
+import { ResultInterface } from "../shared/result.interface";
+import examples from "./examples";
 
 export const summarize = async (input : string) => {
-     const COHERE_CLASSIFY_URL = " https://api.cohere.ai/summarize",
-     data = {
-          "length": "medium",
-          "format": "paragraph",
-          "model": "summarize-xlarge",
-          "extractiveness": "low",
-          "temperature": 0.3,
-          "text" : input
+
+     const url = import.meta.env.VITE_COHERE_SUMMIRIZE_URL,
+     api_key = import.meta.env.VITE_COHERE_APY_KEY
+     
+     const data = {
+          "model": "large",
+          "inputs": [input],
+          "examples" : examples     
      }
 
+     try {
+          const response = await fetch(url!, {
+               method: "POST",
+               headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `BEARER ${ api_key! }`,
+               },
+               body: JSON.stringify(data),
+          })
+          
+          const json  = await response.json()
+          const classification = json.classifications[0].labels
+          
+          let higher = 0, currentTopic = ''
+          for(const topic in classification)
+               if(classification[topic].confidence > higher){
+                    currentTopic = topic
+                    higher = classification[currentTopic].confidence
+               }
 
-     const response = await fetch(COHERE_CLASSIFY_URL, {
-          method: "POST",
-          headers: {
-               Accept: "application/json",
-               Authorization: `Bearer ${COHERE_APY_KEY}`,
-               "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data),
-        })
+          const result : ResultInterface = {
+               topic: currentTopic,
+               confidence: higher
+          }
+          return result;
+     } catch (error) {
+          console.log(error)
+          return null
+     }
 
-     return response.json();
 }
