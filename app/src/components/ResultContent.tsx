@@ -7,7 +7,7 @@ function ResultContent(){
 
     return(
         <>
-            <div className="mx-9 border-solid" > { context?.result?.topic }  { context?.result?.confidence } </div>
+            <div className="border border-solid border-gray-300 block h-5/6 w-5/6 bg-gray-50  rounded-lg mx-auto mb-6" > { context?.result?.topic }  { context?.result?.confidence } </div>
         </>
     )
 
