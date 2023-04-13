@@ -7,9 +7,9 @@ function FileInput(){
     const context = useContext(Context)
 
     const read = (e : ProgressEvent<FileReader>) => {
-        const input = document.getElementById('input')
+        const input = context?.refInput;
         if(input && e.target?.result?.toString()) {
-            input.innerHTML = e.target?.result?.toString()
+            input!.current!.innerHTML = e.target?.result?.toString()
             context?.setInput(e.target?.result?.toString())
         }
     }
