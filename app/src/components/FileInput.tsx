@@ -2,6 +2,8 @@ import React from "react"
 import { Context } from "../providers/context"
 import { useContext } from "react"
 import * as pdfjsLib from 'pdfjs-dist';
+import PizZip from "pizzip";
+import DocxTemplater from 'docxtemplater'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
 
@@ -17,7 +19,8 @@ function FileInput(){
         }
     }
 
-    const readPdfFile = async (pdf : pdfjsLib.PDFDocumentProxy) => {
+    const readPdfFile = async (fileUrl : string) => {
+        const pdf = await pdfjsLib.getDocument(fileUrl).promise
         let content = ''
         for(let i = 1; i <= pdf.numPages; i++){
             const page = await pdf.getPage(i)
@@ -31,21 +34,44 @@ function FileInput(){
         context?.setInput(content)
     }
 
+    const readDocxFile = async (e : ProgressEvent<FileReader>) => {
+        const zip = new PizZip(e!.target!.result ?? '');
+        const doc = new DocxTemplater();
+        doc.loadZip(zip);
+        const text = doc.getFullText();
+        
+        const input = context?.refInput;
+        input!.current!.innerHTML = text
+        context?.setInput(text)
+    }
+
     const handleFile = async (e : React.ChangeEvent<HTMLInputElement>) => {
         const extension = e.target.value.split('.')[1]
+        const fileUploaded = e!.target!.files![0]
 
         switch (extension) {
-            case 'txt':
+            case 'txt': {
                 const file = new FileReader()
                 file.addEventListener('load', readTextFile)
-                file.readAsText(e!.target!.files![0])        
+                file.readAsText(fileUploaded)        
                 break;
+            }
 
-            case 'pdf':
-                const fileUrl = URL.createObjectURL(e!.target!.files![0])
-                const pdf = await pdfjsLib.getDocument(fileUrl).promise
-                readPdfFile(pdf)
+            case 'pdf': {
+                const fileUrl = URL.createObjectURL(fileUploaded)
+                readPdfFile(fileUrl)
                 break;
+            }
+            case 'docx': {
+                const file = new FileReader()
+                file.readAsArrayBuffer(fileUploaded)
+                file.addEventListener('load', readDocxFile)
+                break;
+            }
+            default: {
+                context?.setResult({topic: 'No es un archivo válido', confidence: 0})
+                break;
+            }
         }
         
     }
