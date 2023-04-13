@@ -7,7 +7,7 @@ function ClassifyForm(){
     
     return (
         <>
-            <div className='grid  grid-cols-2 items-center px-8'>
+            <div className='grid md:grid-cols-1 lg:grid-cols-2 items-center px-8'>
                 <Input />
                 <ResultContent />
                 <FileInput />

@@ -23,7 +23,7 @@ function Button(){
     if(!wait)
     return (
         <div className='flex w-full justify-center mt-6'>
-            <button type="button" onClick={ handleButton } className="flex items-center gap-3 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-90">
+            <button type="button" onClick={ handleButton } className="flex items-center gap-3 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-20 py-6 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-90">
                 <p>Clasificar</p>
             </button>
         </div>
@@ -32,7 +32,7 @@ function Button(){
     else 
     return (
         <div className='flex w-full justify-center mt-6'>
-            <button type="button" className="flex items-center gap-3 text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-90">
+            <button type="button" className="flex items-center gap-3 text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-20 py-6 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-90">
                 <p>Clasificando</p>
                 {wait && <img src={loadingPng} className="w-7 animate-spin" />}
             </button>
