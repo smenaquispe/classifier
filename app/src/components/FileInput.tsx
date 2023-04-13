@@ -17,6 +17,20 @@ function FileInput(){
         }
     }
 
+    const readPdfFile = async (pdf : pdfjsLib.PDFDocumentProxy) => {
+        let content = ''
+        for(let i = 1; i <= pdf.numPages; i++){
+            const page = await pdf.getPage(i)
+            const textContent = await page.getTextContent()
+            const pageContent = textContent.items.map(item => item.str).join(' ')
+            content += pageContent + '\n'
+        }
+
+        const input = context?.refInput;
+        input!.current!.innerHTML = content
+        context?.setInput(content)
+    }
+
     const handleFile = async (e : React.ChangeEvent<HTMLInputElement>) => {
         const extension = e.target.value.split('.')[1]
 
@@ -30,20 +44,7 @@ function FileInput(){
             case 'pdf':
                 const fileUrl = URL.createObjectURL(e!.target!.files![0])
                 const pdf = await pdfjsLib.getDocument(fileUrl).promise
-
-                let content = ''
-                for(let i = 1; i <= pdf.numPages; i++){
-                    const page = await pdf.getPage(i)
-                    const textContent = await page.getTextContent()
-                    const pageContent = textContent.items.map(item => item.str).join(' ')
-                    content += pageContent + '\n'
-                }
-
-                const input = context?.refInput;
-                input!.current!.innerHTML = content
-                context?.setInput(content)
-
-
+                readPdfFile(pdf)
                 break;
         }
         
