@@ -25,6 +25,7 @@ function FileInput(){
         for(let i = 1; i <= pdf.numPages; i++){
             const page = await pdf.getPage(i)
             const textContent = await page.getTextContent()
+            //@ts-ignore
             const pageContent = textContent.items.map(item => item.str).join(' ')
             content += pageContent + '\n'
         }
