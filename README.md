@@ -2,6 +2,9 @@
 
 It is just a little project, that I try to use an IA
 
+## Demo
+Deployed in vercel: [link](https://classifier-iota.vercel.app/)
+
 ## IA
 
 I choosed [cohere](https://cohere.ai/) ia, its method of classify texts
